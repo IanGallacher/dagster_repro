@@ -1,0 +1,19 @@
+services:
+  dagster:
+    container_name: repro-dagster
+    build:
+      context: .
+      dockerfile: Dockerfile.DAG
+    image: repro-dagster
+    restart: unless-stopped
+    entrypoint: ["dagster", "dev", "--host", "0.0.0.0"]
+    ports:
+      - "3000:3000" # Web UI
+    environment:
+      DAGSTER_HOME: /data/dagster_home
+    volumes:
+      - ./.data:/data
+      - ./dagster:/app
+
+volumes:
+  dagster_home:

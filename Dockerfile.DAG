@@ -1,0 +1,13 @@
+# syntax=docker/dockerfile:1.7-labs
+
+FROM python:3.11-slim
+
+WORKDIR /app
+
+COPY ./dagster/setup.py /app/setup.py
+
+RUN pip install -e ".[dev]"
+
+COPY --exclude=./dagster/.data ./dagster /app
+
+CMD ["dagster-webserver", "-h", "0.0.0.0", "-p", "3000"]
